@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | CertiChain Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; min-height: 100vh; position: relative; overflow-x: hidden; }
+        .background-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%); z-index: -4; }
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=2029&q=80'); background-size: cover; background-position: center; filter: blur(3px); transform: scale(1.1); z-index: -6; animation: slowZoom 30s infinite alternate; }
+        @keyframes slowZoom { 0% { transform: scale(1.1); } 100% { transform: scale(1.3); } }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; overflow: hidden; }
+        .particle { position: absolute; width: 6px; height: 6px; background: rgba(255,215,0,0.3); border-radius: 50%; animation: float 15s infinite linear; }
+        @keyframes float { from { transform: translateY(100vh) translateX(-50vw); } to { transform: translateY(-100vh) translateX(50vw); } }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; min-height: 100vh; position: relative; z-index: 10; }
+        .glass-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,215,0,0.2); border-radius: 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); transition: all 0.4s ease; }
+        .glass-card:hover { border-color: rgba(255,215,0,0.3); box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
+        .header { padding: 30px 40px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%); animation: rotateHeader 20s linear infinite; }
+        @keyframes rotateHeader { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .header-content { position: relative; z-index: 2; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #fff 0%, #3b82f6 50%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header h1 i { margin-right: 15px; color: #3b82f6; }
+        .header p { color: rgba(255,255,255,0.8); margin-top: 5px; }
+        .header-buttons { display: flex; gap: 15px; position: relative; z-index: 2; }
+        .back-btn, .logout-btn { padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,215,0,0.3); cursor: pointer; }
+        .back-btn { background: rgba(255,255,255,0.1); color: white; }
+        .logout-btn { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
+        .back-btn:hover { background: rgba(255,215,0,0.2); transform: translateY(-3px); border-color: #ffd700; }
+        .logout-btn:hover { background: #ef4444; color: white; transform: translateY(-3px); }
+        .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px; }
+        .portal-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.2); border-radius: 40px; padding: 40px 30px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .portal-card:hover { transform: translateY(-10px); border-color: #ffd700; box-shadow: 0 30px 60px rgba(255,215,0,0.3); }
+        .portal-icon { font-size: 4rem; color: #ffd700; margin-bottom: 20px; }
+        .portal-card h2 { color: white; font-size: 1.8rem; margin-bottom: 10px; }
+        .portal-card p { color: rgba(255,255,255,0.8); margin-bottom: 25px; }
+        .portal-btn { background: linear-gradient(135deg, #ffd700, #ffa500); color: black; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 600; display: inline-block; cursor: pointer; }
+        .verify-card { border-top: 5px solid #10b981; }
+        .admin-card { border-top: 5px solid #3b82f6; }
+        .verifiers-card { border-top: 5px solid #8b5cf6; }
+        .users-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .users-table th, .users-table td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,215,0,0.2); color: white; }
+        .users-table th { color: #ffd700; font-weight: 600; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; }
+        .status-approved { background: #10b981; color: white; }
+        .status-pending { background: #f59e0b; color: white; }
+        .message { padding: 12px 20px; border-radius: 30px; margin: 15px 0; display: none; text-align: center; }
+        .success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
+        .error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .back-btn { background: rgba(255,255,255,0.1); color: white; padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255,215,0,0.3); cursor: pointer; margin-bottom: 20px; display: inline-block; }
+        .back-btn:hover { background: rgba(255,215,0,0.2); }
+        @media (max-width: 768px) { .portal-grid { grid-template-columns: 1fr; } .header { flex-direction: column; text-align: center; } }
+    </style>
+</head>
+<body>
+    <div class="background-layer"><div class="bg-image"></div><div class="overlay"></div><div class="particles" id="particles"></div></div>
+    <div class="container">
+        <div class="glass-card header" data-aos="fade-down">
+            <div>
+                <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
+                <p>Welcome, <span id="adminName">Admin</span></p>
+            </div>
+            <div class="header-buttons">
+                <button onclick="goBack()" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Main</button>
+                <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+        
+        <div class="portal-grid" data-aos="fade-up" id="mainOptions">
+            <div class="portal-card verify-card" onclick="window.open('/verify', '_blank')">
+                <div class="portal-icon"><i class="fas fa-certificate"></i></div>
+                <h2>Verify Portal</h2>
+                <p>Verify certificates using AI and Face ID</p>
+                <span class="portal-btn">Open Verify Page →</span>
+            </div>
+            <div class="portal-card admin-card" onclick="window.open('/admin/panel', '_blank')">
+                <div class="portal-icon"><i class="fas fa-user-shield"></i></div>
+                <h2>Admin Portal</h2>
+                <p>Issue, revoke and manage certificates</p>
+                <span class="portal-btn">Open Admin Page →</span>
+            </div>
+            <div class="portal-card verifiers-card" onclick="showVerifiersData()">
+                <div class="portal-icon"><i class="fas fa-users"></i></div>
+                <h2>Verifiers Data</h2>
+                <p>View all verifiers and their status</p>
+                <span class="portal-btn">View Verifiers →</span>
+            </div>
+        </div>
+        
+        <div id="verifiersData" class="tab-content">
+            <div class="glass-card" style="padding: 40px;">
+                <button class="back-btn" onclick="showMainOptions()"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+                <h2 style="color: white; margin-bottom: 20px;"><i class="fas fa-users"></i> Verifiers List</h2>
+                <div id="verifiersMessage" class="message"></div>
+                <div id="verifiersList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+        
+        function goBack() {
+            window.location.href = '/';
+        }
+        
+        function showMainOptions() {
+            document.getElementById('mainOptions').style.display = 'grid';
+            document.getElementById('verifiersData').classList.remove('active');
+        }
+        
+        async function showVerifiersData() {
+            document.getElementById('mainOptions').style.display = 'none';
+            document.getElementById('verifiersData').classList.add('active');
+            await loadVerifiers();
+        }
+        
+        async function loadVerifiers() {
+            try {
+                const response = await fetch('/api/admin/verifiers');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const verifiers = data.verifiers || [];
+                    
+                    const verifiersList = document.getElementById('verifiersList');
+                    if (verifiers.length === 0) {
+                        verifiersList.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">No verifiers found</p>';
+                    } else {
+                        verifiersList.innerHTML = `
+                            <table class="users-table">
+                                <thead>
+                                    <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Registered On</th>                                </thead>
+                                <tbody>
+                                    ${verifiers.map(verifier => `
+                                        <tr>
+                                            <td>${verifier.name}</td>
+                                            <td>${verifier.email}</td>
+                                            <td><span class="status-badge" style="background: #10b981;">VERIFIER</span></td>
+                                            <td><span class="status-badge ${verifier.status === 'approved' ? 'status-approved' : 'status-pending'}">${verifier.status.toUpperCase()}</span></td>
+                                            <td>${new Date(verifier.createdAt).toLocaleDateString()}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading verifiers:', error);
+                showMessage('verifiersMessage', 'Error loading verifiers: ' + error.message, 'error');
+            }
+        }
+        
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            setTimeout(() => element.style.display = 'none', 5000);
+        }
+        
+        async function logout() {
+            await fetch('/api/auth/logout');
+            window.location.href = '/';
+        }
+        
+        async function checkSession() {
+            try {
+                const response = await fetch('/api/auth/session');
+                const data = await response.json();
+                if (!data.authenticated || (data.user.role !== 'admin' && data.user.role !== 'superadmin')) {
+                    window.location.href = '/auth/admin';
+                } else {
+                    document.getElementById('adminName').textContent = data.user?.name || 'Admin';
+                }
+            } catch (error) {
+                window.location.href = '/auth/admin';
+            }
+        }
+        
+        checkSession();
+    </script>
+</body>
+</html>

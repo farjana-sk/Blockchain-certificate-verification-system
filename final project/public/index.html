@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiChain Pro | Blockchain Certificate Verification</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -5;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 100%);
+            z-index: -4;
+        }
+
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=2029&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: blur(2px);
+            transform: scale(1.1);
+            z-index: -6;
+            animation: slowZoom 30s infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1.3); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100vh) translateX(-50vw); }
+            to { transform: translateY(-100vh) translateX(50vw); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .header {
+            padding: 40px 50px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+            animation: rotateHeader 20s linear infinite;
+        }
+
+        @keyframes rotateHeader {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #ffd700 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header h1 i {
+            margin-right: 15px;
+            color: #ffd700;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .header-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(255,215,0,0.15);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 50px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .role-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 40px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 30px 60px rgba(255,215,0,0.3);
+        }
+
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .role-card h2 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .role-card p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: black;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .superadmin .role-icon { color: #8b5cf6; }
+        .admin .role-icon { color: #3b82f6; }
+        .verifier .role-icon { color: #10b981; }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.8rem; }
+            .role-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-layer">
+        <div class="bg-image"></div>
+        <div class="overlay"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <div class="glass-card header" data-aos="fade-down">
+            <div class="header-content">
+                <h1><i class="fas fa-certificate"></i> CertiChain Pro</h1>
+                <p>Next-Generation Blockchain Certificate Verification</p>
+                <div class="header-badge">
+                    <i class="fas fa-shield-alt"></i> SHA-256 · <i class="fas fa-brain"></i> AI · <i class="fas fa-face-smile"></i> Face ID
+                </div>
+            </div>
+        </div>
+
+        <div class="role-grid" data-aos="fade-up">
+            <div class="role-card superadmin" onclick="window.location.href='/auth/superadmin'">
+                <div class="role-icon"><i class="fas fa-crown"></i></div>
+                <h2>Super Admin</h2>
+                <p>Full system control, manage all users</p>
+                <span class="role-btn">Access Portal →</span>
+            </div>
+            
+            <div class="role-card admin" onclick="window.location.href='/auth/admin'">
+                <div class="role-icon"><i class="fas fa-user-shield"></i></div>
+                <h2>Admin</h2>
+                <p>Issue & manage certificates</p>
+                <span class="role-btn">Access Portal →</span>
+            </div>
+            
+            <div class="role-card verifier" onclick="window.location.href='/auth/verifier'">
+                <div class="role-icon"><i class="fas fa-user-check"></i></div>
+                <h2>Verifier</h2>
+                <p>Verify certificates with AI</p>
+                <span class="role-btn">Access Portal →</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="fas fa-shield-alt"></i> Blockchain Secured | <i class="fas fa-brain"></i> AI-Powered Verification | <i class="fas fa-face-smile"></i> Face Recognition
+        </div>
+    </div>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
