@@ -1,20 +1,34 @@
 # Blockchain Certificate Verification System
 
-## 📌 Description
-This project is developed to verify digital certificates securely using blockchain concepts. It helps prevent duplication and ensures certificates cannot be tampered with.
+## Live Demo
 
-## 🚀 Features
-- Secure certificate validation
-- Tamper-proof verification system
-- Prevents fake or duplicate certificates
+🔗 https://blockchain-certificate-verification-simk.onrender.com/
 
-## 🛠 Technologies Used
-- HTML
-- CSS
-- JavaScript
-- Node.js
+## Project Overview
 
-## ▶️ How to Run
-1. Install dependencies using npm install
-2. Run the server using node server.js
-3. Open the browser and use the application
+A secure certificate verification platform developed using Node.js, Express.js, HTML, CSS, and JavaScript. The system provides role-based access control through Super Admin, Admin, and Verifier modules.
+
+## Features
+
+* Super Admin Dashboard
+* Admin Certificate Management
+* Certificate Verification Portal
+* SHA-256 Security
+* AI-Assisted Verification
+* Face ID Authentication
+* Role-Based Access Control
+
+## Technology Stack
+
+* Frontend: HTML, CSS, JavaScript
+* Backend: Node.js, Express.js
+* Data Storage: JSON-Based Storage
+* Security: SHA-256 Hashing
+
+## Live Project
+
+https://blockchain-certificate-verification-simk.onrender.com/
+
+## GitHub Repository
+
+https://github.com/farjana-sk/Blockchain-certificate-verification-system
